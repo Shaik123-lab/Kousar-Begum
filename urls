@@ -1,0 +1,41 @@
+"""climateproj URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from userapp import views as user_views
+from mainapp import views as main_views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',main_views.home,name='home'),
+    path('about',main_views.about,name='about'),
+    path('contact',main_views.contact,name='contact'),
+    path('user-login',user_views.user_login,name='user_login'),
+    path('user-register',user_views.user_register,name='user_register'),
+    path('log-out',user_views.log_out,name='log_out'),
+    path('forget-password',user_views.forget_password,name='forget_password'),
+    path('reset-password/<str:id>/',user_views.reset_password,name="reset_password"),
+    path('change-password',user_views.change_password,name="change_password"),
+    path('base',user_views.base,name='base'),
+    path('myprofile',user_views.myprofile,name='myprofile'),
+    # path('change-password',auth_views.PasswordChangeView.as_view(template_name='user/user-change-password.html'),name="change_password"),
+    path('image-convert',user_views.image_convert ,name='image_convert'),
+    path('image-result/<int:id>/',user_views.image_result,name='image_result'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
